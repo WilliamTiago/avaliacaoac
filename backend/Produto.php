@@ -92,6 +92,7 @@ switch ($acao){
     break;
     
   default:
-    $total = $con->query(`SELECT COUNT(codigo) AS total FROM avaliacao.produto;`, true);
+    $sql   = `SELECT COUNT(codigo) AS total FROM avaliacao.produto;`;
+    $total = $con->query($sql, true);
     return json_encode($total);
 }
