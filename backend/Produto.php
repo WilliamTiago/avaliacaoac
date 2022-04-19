@@ -1,5 +1,7 @@
 <?php
 
+header("Content-Type: aplication/json");
+
 require_once 'Conexao.php';
 
 class Produto{
@@ -70,14 +72,12 @@ class Produto{
     
 }
 
-$conn = new Conexao();
-
-
+$con = new Conexao();
+$con->setConexao();
 
 $acao = $_POST['acao'];
 
-
-switch ($acao) {
+switch ($acao){
   case 'create':
     
     break;
@@ -92,5 +92,6 @@ switch ($acao) {
     break;
     
   default:
-    
+    $total = $con->query(`SELECT COUNT(codigo) AS total FROM avaliacao.produto;`, true);
+    return json_encode($total);
 }
