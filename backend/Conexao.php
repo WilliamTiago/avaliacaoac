@@ -21,7 +21,7 @@ class Conexao {
   private $conexao;
   private $query;
 
-  function __construct($sNome = 'avaliacao', $sHost = 'localhost', $sUsuario = 'root', $sSenha = '') {
+  function __construct($sNome = 'avaliacao', $sHost = 'localhost', $sUsuario = 'admin', $sSenha = 'admin') {
     $this->nome    = $sNome;
     $this->host    = $sHost;
     $this->usuario = $sUsuario;
