@@ -68,30 +68,14 @@ class Produto{
         $this->total_de_vendas = $total_de_vendas;
     }
     
-    public function create(){
-        
-    }
-    
-    public function read(){
-        
-    }
-    
-    public function update(){
-        
-    }
-    
-    public function delete(){
-        
-    }
-    
-    public function getAll(){
-        
-    }
 }
 
-setConexao();
+$conn = new Conexao();
+
+
 
 $acao = $_POST['acao'];
+
 
 switch ($acao) {
   case 'create':
