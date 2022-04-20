@@ -44,7 +44,6 @@ class Conexao {
 
         $this->query(sprintf("SET time_zone = '%s'", date('P')));
         date_default_timezone_set($this->timeZone);
-        echo "working";
       } else {
         echo 'Nosso banco de dados não está respondendo à solicitação de acesso, já estamos verificando. Por favor aguarde!';
       }
