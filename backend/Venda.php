@@ -47,3 +47,41 @@ class Venda{
     }
     
 }
+
+try{    
+    $con = new Conexao();
+    $con->setConexao();
+
+    $acao = $_POST['acao'];
+
+    switch ($acao){
+    case 'create':
+        
+        break;
+    case 'read':
+        
+        break;
+    case 'update':
+        
+        break;
+    case 'delete':
+        
+        break;
+        
+    case 'gettotal':
+        //Retorna o total de produtos
+        $sql = 'SELECT COUNT(codigo) AS total FROM avaliacao.venda;';
+        $con->query($sql);
+        $result = $con->getArrayResults();
+        $total = (count($result) === 1) ? $result[0] : 0;
+        print json_encode($total);
+        break;
+    default:
+        throw new Exception('Nenhuma ação válida foi solicitada!');
+    }
+}catch(Exception $e){
+    print('Code:' . $e->getCode() . ' Message:' . $e->getMessage());
+}finally{
+    $con->closeConexao();
+    unset($con);
+}
