@@ -1,5 +1,9 @@
 <?php 
 
+header("Content-Type: aplication/json");
+
+require_once 'Conexao.php';
+
 class Venda{
     
     private $codigo;

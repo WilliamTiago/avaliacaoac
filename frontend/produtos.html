@@ -35,6 +35,8 @@
     <script src="./assets/plugins/maps-google/plugin.js"></script>
     <!-- Input Mask Plugin -->
     <script src="./assets/plugins/input-mask/plugin.js"></script>
+    <!-- Jquery -->
+    <script src="./assets/js/vendors/jquery-3.2.1.min.js"></script>
   </head>
   <body class="">
     <div class="page">
@@ -117,111 +119,7 @@
                           <th class="w-1"></th>
                         </tr>
                       </thead>
-                      <tbody>
-                        <tr>
-                          <td><span class="text-muted">1</span></td>
-                          <td>Batata</td>
-                          <td>
-                            R$ 1,50
-                          </td>
-                          <td>
-                            2000
-                          </td>
-                          <td>
-                            08/09/2019
-                          </td>
-                          <td>
-                            R$ 30,00
-                          </td>                         
-                          <td>
-                            <a class="icon" href="./form-produto-edit.html">
-                              <i class="fe fe-edit"></i>
-                            </a>			    
-                          </td>
-                          <td>
-                            <a class="icon" href="javascript:void(0)">
-                              <i class="fe fe-trash"></i>
-                            </a>			    
-                          </td>
-                        </tr>
-                        <tr>
-                          <td><span class="text-muted">2</span></td>
-                          <td>Arroz</td>
-                          <td>
-                            R$ 17,50
-                          </td>
-                          <td>
-                            200
-                          </td>
-                          <td>
-                            05/09/2019
-                          </td>
-                          <td>
-                            R$ 577,50
-                          </td>                         
-                          <td>
-                            <a class="icon" href="javascript:void(0)">
-                              <i class="fe fe-edit"></i>
-                            </a>			    
-                          </td>
-                          <td>
-                            <a class="icon" href="javascript:void(0)">
-                              <i class="fe fe-trash"></i>
-                            </a>			    
-                          </td>
-                        </tr>
-                        <tr>
-                          <td><span class="text-muted">3</span></td>
-                          <td>Feijão</td>
-                          <td>
-                            R$ 5,50
-                          </td>
-                          <td>
-                            10000
-                          </td>
-                          <td>
-                            05/09/2019
-                          </td>
-                          <td>
-                            R$ 55,50
-                          </td>                         
-                          <td>
-                            <a class="icon" href="javascript:void(0)">
-                              <i class="fe fe-edit"></i>
-                            </a>			    
-                          </td>
-                          <td>
-                            <a class="icon" href="javascript:void(0)">
-                              <i class="fe fe-trash"></i>
-                            </a>			    
-                          </td>
-                        </tr>
-                        <tr>
-                          <td><span class="text-muted">4</span></td>
-                          <td>Coca-cola 2LT</td>
-                          <td>
-                            R$ 7,50
-                          </td>
-                          <td>
-                            20000
-                          </td>
-                          <td>
-                            05/09/2019
-                          </td>
-                          <td>
-                            R$ 77,50
-                          </td>                         
-                          <td>
-                            <a class="icon" href="javascript:void(0)">
-                              <i class="fe fe-edit"></i>
-                            </a>			    
-                          </td>
-                          <td>
-                            <a class="icon" href="javascript:void(0)">
-                              <i class="fe fe-trash"></i>
-                            </a>			    
-                          </td>
-                        </tr>
+                      <tbody id="listagem_produtos">                       
                       </tbody>
                     </table>
                   </div>
@@ -233,4 +131,6 @@
       </div>
     </div>
   </body>
+  <script src="./public/js/script.js"></script>
+  <script src="./public/js/produto.js"></script>
 </html>

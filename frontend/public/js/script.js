@@ -1,24 +1,15 @@
-//Requisição para obter o total de produtos
-$.post("../backend/Produto.php",
-    {
-        acao: "gettotal",
-    },
-    function(data, status){
-        if(status === 'success'){
-            $('#total_produtos').text(data.total);
-        }
-    }
-);
+function formatMoney(value){
+    var formatter = new Intl.NumberFormat('pr-BR', {
+        style: 'currency',
+        currency: 'BRL',
+    });
+      
+    return formatter.format(value);
+}
 
-//Requisição para obter o total de vendas
-$.post("../backend/Venda.php",
-    {
-        acao: "gettotal",
-    },
-    function(data, status){
-        if(status === 'success'){
-            $('#total_vendas').text(data.total);
-        }
-    }
-);
-
+function formatDate(value){
+    const date = value;
+    const [year, month, day] = date.split('-');
+    const result = [month, day, year].join('/');
+    return result;
+}

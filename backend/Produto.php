@@ -10,16 +10,14 @@ class Produto{
     private $descricao;
     private $valor_unitario;
     private $estoque;
-    private $data_ultima_venda;
-    private $total_de_vendas;
+    private $ativo;
 
-    public function __construct($codigo, $descricao, $valor_unitario, $estoque, $data_ultima_venda, $total_de_vendas){
+    public function __construct($codigo, $descricao, $valor_unitario, $estoque, $ativo){
         $this->codigo            = $codigo;
         $this->descricao         = $descricao;
         $this->valor_unitario    = $valor_unitario;
         $this->estoque           = $estoque;
-        $this->data_ultima_venda = $data_ultima_venda;
-        $this->total_de_vendas   = $total_de_vendas;
+        $this->ativo             = $ativo;
     }
 
     public function getCodigo() {
@@ -38,12 +36,8 @@ class Produto{
         return $this->estoque;
     }
 
-    public function getData_ultima_venda() {
-        return $this->data_ultima_venda;
-    }
-
-    public function getTotal_de_vendas() {
-        return $this->total_de_vendas;
+    public function getAtivo() {
+        return $this->ativo;
     }
 
     public function setCodigo($codigo) {
@@ -62,12 +56,8 @@ class Produto{
         $this->estoque = $estoque;
     }
 
-    public function setData_ultima_venda($data_ultima_venda) {
-        $this->data_ultima_venda = $data_ultima_venda;
-    }
-
-    public function setTotal_de_vendas($total_de_vendas) {
-        $this->total_de_vendas = $total_de_vendas;
+    public function setAtivo($ativo) {
+        $this->ativo = $ativo;
     }
     
 }
@@ -91,13 +81,25 @@ try{
     case 'delete':
         
         break;
-        
+    case 'list':
+        //Retorna lista com todos os produtos
+        $sql = 'SELECT  pro.codigo,
+                        pro.descricao,
+                        pro.valor_unitario,
+                        pro.estoque,
+                        pro.ativo,
+                        (SELECT data_venda FROM avaliacao.venda WHERE venda.codigo_produto = pro.codigo) AS data_ultima_venda,
+                        (SELECT (venda.quantidade * valor_unitario) FROM avaliacao.venda WHERE venda.codigo_produto = pro.codigo) AS total_vendas
+                FROM avaliacao.produto AS pro;';
+        $con->query($sql);
+        $produtos = $con->getArrayResults();
+        print json_encode($produtos);
+        break;        
     case 'gettotal':
         //Retorna o total de produtos
         $sql = 'SELECT COUNT(codigo) AS total FROM avaliacao.produto;';
         $con->query($sql);
-        $result = $con->getArrayResults();
-        $total = (count($result) === 1) ? $result[0] : 0;
+        $total = $con->getArrayResults();
         print json_encode($total);
         break;
     default:

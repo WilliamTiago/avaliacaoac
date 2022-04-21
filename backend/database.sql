@@ -4,9 +4,8 @@ CREATE TABLE `avaliacao`.`produto`(
 codigo INT NOT NULL,
 descricao VARCHAR(50),
 valor_unitario DECIMAL(10,2),
-estoque INT,
-data_ultima_venda DATE,
-total_de_vendas INT,
+estoque INT DEFAULT 0,
+ativo BOOLEAN DEFAULT 1,
 PRIMARY KEY (`codigo`)
 );
 
@@ -15,16 +14,9 @@ codigo INT NOT NULL,
 codigo_produto INT NOT NULL,
 quantidade INT,
 valor_unitario DECIMAL(10,2),
+data_venda DATE,
 PRIMARY KEY (`codigo`),
 CONSTRAINT `codigo_produto`
     FOREIGN KEY (`codigo_produto`)
     REFERENCES `avaliacao`.`produto` (`codigo`)
-);
-
-CREATE TABLE `avaliacao`.`produto_excluido`(
-codigo INT NOT NULL,
-descricao VARCHAR(50),
-valor_unitario DECIMAL(10,2),
-estoque INT,
-PRIMARY KEY (`codigo`)
 );
