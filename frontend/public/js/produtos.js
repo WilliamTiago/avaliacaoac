@@ -1,7 +1,13 @@
+listProdutos();
+
+$(document).on("click", '.deleteProduto', function () {
+    confirmDeleteProduto(this);
+});
+
 function renderRowProdutos(object){
     let valor_unitario = formatMoney(object.valor_unitario); 
-    let data_ultima_venda = object.data_ultima_venda !== null ? object.data_ultima_venda : '--/--/--';
-    let total_vendas = object.total_vendas !== null ? object.total_vendas : '0,00';
+    let data_ultima_venda = object.data_ultima_venda !== null ? formatDate(object.data_ultima_venda) : '--/--/--';
+    let total_vendas = object.total_vendas !== null ? formatMoney(object.total_vendas) : 'R$0,00';
     let row =   `<tr>
                     <td><span class="text-muted">${object.codigo}</span></td>
                     <td>${object.descricao}</td>
@@ -15,7 +21,7 @@ function renderRowProdutos(object){
                         </a>			    
                     </td>
                     <td>
-                        <a class="icon" href="javascript:void(0)">
+                        <a codigo="${object.codigo}" class="icon deleteProduto" href="javascript:void(0)">
                             <i class="fe fe-trash"></i>
                         </a>			    
                     </td>
@@ -38,4 +44,27 @@ function listProdutos(){
     );
 }
 
-listProdutos();
+function confirmDeleteProduto(record){
+    let codigo = record.attributes['codigo'].value;
+    let result = confirm('Tem certeza que deseja excluir o produto de código ' + codigo);
+    if(result){
+        deleteProduto(codigo);
+    }
+}
+
+function deleteProduto(codigo){
+    $.post("../backend/Produto.php",
+        {
+            "acao": "delete",
+            "codigo": codigo,
+        },
+        function(data, status){
+            if((status === 'success') && (data === true)){
+                alert('Produto excluído com sucesso!');
+                location.reload();
+            }
+        }
+    );
+}
+
+

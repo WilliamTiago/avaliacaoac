@@ -35,6 +35,8 @@
     <script src="./assets/plugins/maps-google/plugin.js"></script>
     <!-- Input Mask Plugin -->
     <script src="./assets/plugins/input-mask/plugin.js"></script>
+    <!-- Jquery -->
+    <script src="./assets/js/vendors/jquery-3.2.1.min.js"></script>
   </head>
   <body class="">
     <div class="page">
@@ -111,37 +113,7 @@
                           <th class="w-1"></th>                          
                         </tr>
                       </thead>
-                      <tbody>
-                        <tr>
-                          <td><span class="text-muted">1</span></td>
-                          <td>Batata rosa</td>
-                          <td>
-                            R$ 1,50
-                          </td>
-                          <td>
-                            2000
-                          </td>                                                
-                          <td>
-                            <a class="icon" href="#">
-                              <i class="fe fe-refresh-ccw"></i>
-                            </a>			    
-                          </td>                          
-                        </tr>
-                        <tr>
-                          <td><span class="text-muted">2</span></td>
-                          <td>Farinha</td>
-                          <td>
-                            R$ 7,50
-                          </td>
-                          <td>
-                            200
-                          </td>                       
-                          <td>
-                            <a class="icon" href="#">
-                              <i class="fe fe-refresh-ccw"></i>
-                            </a>					    
-                          </td>                          
-                        </tr>
+                      <tbody id="listagem_produtos_lixeira">
                       </tbody>
                     </table>
                   </div>
@@ -153,4 +125,6 @@
       </div>
     </div>
   </body>
+  <script src="./public/js/script.js"></script>
+  <script src="./public/js/produtos_excluidos.js"></script>
 </html>

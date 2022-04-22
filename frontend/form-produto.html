@@ -35,6 +35,8 @@
     <script src="./assets/plugins/maps-google/plugin.js"></script>
     <!-- Input Mask Plugin -->
     <script src="./assets/plugins/input-mask/plugin.js"></script>
+    <!-- Jquery -->
+    <script src="./assets/js/vendors/jquery-3.2.1.min.js"></script>
   </head>
   <body class="">
     <div class="page">
@@ -103,19 +105,19 @@
 		    <div class="col-md-12">
                       <div class="form-group">
 			<label class="form-label">Descrição</label>
-			<input type="text" class="form-control" name="example-text-input" placeholder="Arroz..">
+			<input id="descricao_produto" name="descricao_produto" type="text" class="form-control" placeholder="Arroz.." maxlength="50" required="true">
 		      </div>
                     </div>
                     <div class="col-sm-6 col-md-4">
                       <div class="form-group">
                         <label class="form-label">Estoque</label>
-                        <input type="number" class="form-control" placeholder="10..">
+                        <input id="estoque_produto" name="estoque_produto" type="number" class="form-control" placeholder="10.." min="0" max="999999999" required="true">
                       </div>
                     </div>
                     <div class="col-sm-6 col-md-4">
                       <div class="form-group">
                         <label class="form-label">Código de barras</label>
-                        <input type="number" class="form-control" placeholder="78978978978978">
+                        <input id="codigo_barras_produto" name="codigo_barras_produto" type="number" class="form-control" placeholder="78978978978978" maxlength="30" required="true">
                       </div>
                     </div>
                     <div class="col-sm-6 col-md-4">
@@ -125,7 +127,7 @@
                           <span class="input-group-prepend">
                             <span class="input-group-text">R$</span>
                           </span>
-                          <input type="text" class="form-control text-right" aria-label="Valor">                         
+                          <input id="valor_unitario_produto" name="valor_unitario_produto" type="text" class="form-control text-right" aria-label="Valor" required="true">                         
                         </div>
                       </div>
                     </div>                    
@@ -136,7 +138,7 @@
 		    <a href="./produtos.html" class="btn btn-secondary">Voltar para produtos</a>
 		  </div>
 		  <div>
-		    <button type="submit" class="btn btn-primary">Confirmar</button>
+		    <button id="cadastrarProduto" class="btn btn-primary">Confirmar</button>
 		  </div>                                    
                 </div>                
               </form>
@@ -147,4 +149,6 @@
     </div>
   </div>
 </body>
+<script src="./public/js/script.js"></script>
+<script src="./public/js/form_produtos.js"></script>
 </html>

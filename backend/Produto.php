@@ -70,36 +70,66 @@ try{
 
     switch ($acao){
     case 'create':
-        
+        //Cadastra um produto
+        $produto = $_POST['produto'];
+        if(empty($produto)){
+            throw new Exception('As informações do produto não foram recebidas!', 422);
+        }
+
         break;
     case 'read':
+        //Busca as informações de um produto
         
         break;
     case 'update':
-        
+        //Atualiza um produto
         break;
     case 'delete':
-        
+        //Desativa produto
+        $codigo = $_POST['codigo'];
+        $sql = "UPDATE avaliacao.produto SET ativo = 0 WHERE codigo = $codigo";
+        $result = $con->query($sql, true);
+        print json_encode($result);
+        break;
+    case 'restore':
+        //Restaura produto
+        $codigo = $_POST['codigo'];
+        $sql = "UPDATE avaliacao.produto SET ativo = 1 WHERE codigo = $codigo";
+        $result = $con->query($sql, true);
+        print json_encode($result);
         break;
     case 'list':
-        //Retorna lista com todos os produtos
+        //Retorna lista com todos os produtos ativos
         $sql = 'SELECT  pro.codigo,
                         pro.descricao,
                         pro.valor_unitario,
                         pro.estoque,
-                        pro.ativo,
-                        (SELECT data_venda FROM avaliacao.venda WHERE venda.codigo_produto = pro.codigo) AS data_ultima_venda,
-                        (SELECT (venda.quantidade * valor_unitario) FROM avaliacao.venda WHERE venda.codigo_produto = pro.codigo) AS total_vendas
-                FROM avaliacao.produto AS pro;';
+                        (SELECT data_venda FROM avaliacao.venda WHERE venda.codigo_produto = pro.codigo ORDER BY venda.data_venda DESC LIMIT 1) AS data_ultima_venda,
+                        (SELECT SUM(venda.quantidade * valor_unitario) FROM avaliacao.venda WHERE venda.codigo_produto = pro.codigo) AS total_vendas
+                FROM avaliacao.produto AS pro
+                WHERE pro.ativo = 1;';
         $con->query($sql);
         $produtos = $con->getArrayResults();
         print json_encode($produtos);
-        break;        
+        break;  
+    case 'listrecyclebin':
+        //Retorna lista com todos os produtos ativos      
+        $sql = 'SELECT  pro.codigo,
+                        pro.descricao,
+                        pro.valor_unitario,
+                        pro.estoque
+                        FROM avaliacao.produto AS pro
+                WHERE pro.ativo = 0;';
+        $con->query($sql);
+        $produtos = $con->getArrayResults();
+        print json_encode($produtos);
+        break; 
     case 'gettotal':
         //Retorna o total de produtos
         $sql = 'SELECT COUNT(codigo) AS total FROM avaliacao.produto;';
         $con->query($sql);
-        $total = $con->getArrayResults();
+        $result = $con->getArrayResults();
+        $total = (count($result) === 1) ? $result[0] : 0;
         print json_encode($total);
         break;
     default:
@@ -111,3 +141,4 @@ try{
     $con->closeConexao();
     unset($con);
 }
+
