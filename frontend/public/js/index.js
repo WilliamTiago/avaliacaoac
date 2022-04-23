@@ -9,8 +9,8 @@ function getTotalProdutos(){
             acao: "gettotal",
         },
         function(data, status){
-            if(status === 'success'){
-                $('#total_produtos').text(data.total);
+            if(status === 'success' && data.code === 200){
+                $('#total_produtos').text(data.result.total);
             }
         }
     );
@@ -22,8 +22,8 @@ function getTotalVendas(){
             acao: "gettotal",
         },
         function(data, status){
-            if(status === 'success'){
-                $('#total_vendas').text(data.total);
+            if(status === 'success' && data.code === 200){
+                $('#total_vendas').text(data.result.total);
             }
         }
     );

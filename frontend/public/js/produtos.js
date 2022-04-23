@@ -4,24 +4,24 @@ $(document).on("click", '.deleteProduto', function () {
     confirmDeleteProduto(this);
 });
 
-function renderRowProdutos(object){
-    let valor_unitario = formatMoney(object.valor_unitario); 
-    let data_ultima_venda = object.data_ultima_venda !== null ? formatDate(object.data_ultima_venda) : '--/--/--';
-    let total_vendas = object.total_vendas !== null ? formatMoney(object.total_vendas) : 'R$0,00';
+function renderRowProdutos(produto){
+    let valor_unitario = formatMoney(produto.valor_unitario); 
+    let data_ultima_venda = produto.data_ultima_venda !== null ? formatDate(produto.data_ultima_venda) : '--/--/--';
+    let total_vendas = produto.total_vendas !== null ? formatMoney(produto.total_vendas) : 'R$0,00';
     let row =   `<tr>
-                    <td><span class="text-muted">${object.codigo}</span></td>
-                    <td>${object.descricao}</td>
+                    <td><span class="text-muted">${produto.codigo}</span></td>
+                    <td>${produto.descricao}</td>
                     <td>${valor_unitario}</td>
-                    <td>${object.estoque}</td>
+                    <td>${produto.estoque}</td>
                     <td>${data_ultima_venda}</td>
                     <td>${total_vendas}</td>                         
                     <td>
-                        <a class="icon" href="./form-produto-edit.html?codigo=${object.codigo}">
+                        <a onclick="loadFormEditProduto(${produto.codigo})" class="icon" href="./form-produto-edit.html">
                             <i class="fe fe-edit"></i>
                         </a>			    
                     </td>
                     <td>
-                        <a codigo="${object.codigo}" class="icon deleteProduto" href="javascript:void(0)">
+                        <a codigo="${produto.codigo}" class="icon deleteProduto" href="javascript:void(0)">
                             <i class="fe fe-trash"></i>
                         </a>			    
                     </td>
@@ -35,9 +35,9 @@ function listProdutos(){
             acao: "list",
         },
         function(data, status){
-            if(status === 'success'){
-                $.each(data, function( index, object ) {
-                    renderRowProdutos(object);
+            if((status === 'success') && (data.code === 200)){
+                $.each(data.result, function( index, produto ) {
+                    renderRowProdutos(produto);
                 });
             }
         }
@@ -59,7 +59,7 @@ function deleteProduto(codigo){
             "codigo": codigo,
         },
         function(data, status){
-            if((status === 'success') && (data === true)){
+            if((status === 'success') && (data.code === 200) && (data.result === true)){
                 alert('Produto excluído com sucesso!');
                 location.reload();
             }
@@ -67,4 +67,8 @@ function deleteProduto(codigo){
     );
 }
 
+function loadFormEditProduto(codigo){
+    sessionStorage.setItem("codigo",codigo);
+    location.href = 'form-produto-edit.html';
+}
 

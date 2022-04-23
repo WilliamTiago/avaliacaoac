@@ -4,15 +4,15 @@ $(document).on("click", '.restoreProduto', function () {
     confirmRestoreProduto(this);
 });
 
-function renderRowProdutosLixeira(object){
-    let valor_unitario = formatMoney(object.valor_unitario); 
+function renderRowProdutosLixeira(produto){
+    let valor_unitario = formatMoney(produto.valor_unitario); 
     let row =   `<tr>
-                    <td><span class="text-muted">${object.codigo}</span></td>
-                    <td>${object.descricao}</td>
+                    <td><span class="text-muted">${produto.codigo}</span></td>
+                    <td>${produto.descricao}</td>
                     <td>${valor_unitario}</td>
-                    <td>${object.estoque}</td>
+                    <td>${produto.estoque}</td>
                     <td>
-                        <a codigo="${object.codigo}" class="icon restoreProduto" href="#">
+                        <a codigo="${produto.codigo}" class="icon restoreProduto" href="#">
                             <i class="fe fe-refresh-ccw"></i>
                         </a>					    
                     </td>   
@@ -27,8 +27,8 @@ function listProdutosLixeira(){
         },
         function(data, status){
             if(status === 'success'){
-                $.each(data, function( index, object ) {
-                    renderRowProdutosLixeira(object);
+                $.each(data.result, function( index, produto ) {
+                    renderRowProdutosLixeira(produto);
                 });
             }
         }
@@ -50,7 +50,7 @@ function restoreProduto(codigo){
             "codigo": codigo,
         },
         function(data, status){
-            if((status === 'success') && (data === true)){
+            if((status === 'success') && (data.code === 200) && (data.result === true)){
                 alert('Produto restaurado com sucesso!');
                 location.reload();
             }
