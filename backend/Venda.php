@@ -60,10 +60,41 @@ try{
 
     switch ($acao){
     case 'create':
-        
+        //Cadastra um produto
+        $venda = $_POST['venda'];
+        if(empty($venda)){
+            throw new Exception('As informações da venda não foram informadas!', 422);
+        }
+        $venda = json_decode($venda);
+        if($venda->atualizar_valor_produto){
+            $sql = "UPDATE avaliacao.produto SET valor_unitario = $venda->valor_unitario WHERE codigo = $venda->codigo_produto";
+            $result = $con->query($sql, true);
+            if(empty($result)){
+                throw new Exception('Não foi possível atualizar o valor unitário do produto!', 500);
+            }
+        }
+        $sql = "SELECT codigo FROM avaliacao.venda ORDER BY codigo DESC LIMIT 1";
+        $con->query($sql);
+        $result = $con->getArrayResults();
+        $codigo = count($result[0]) === 0 ? 1 : $result[0]['codigo'] + 1;
+        $data_venda = date('Y-m-d');
+        $sql = "INSERT INTO avaliacao.venda (codigo, codigo_produto, quantidade, valor_unitario, data_venda) VALUES ($codigo, '$venda->codigo_produto', $venda->quantidade, $venda->valor_unitario, '$data_venda'x);";
+        $result = $con->query($sql, true);
+        if(empty($result)){
+            throw new Exception('Não foi possível cadastrar a venda!', 500);
+        }
+        printResult($result);        
         break;
     case 'read':
-        
+        //Retorna lista com todos os produtos ativos
+        $sql = 'SELECT  pro.codigo,
+                        pro.descricao,
+                        pro.valor_unitario
+                FROM avaliacao.produto AS pro
+                WHERE pro.ativo = 1;';
+        $con->query($sql);
+        $produtos = $con->getArrayResults();
+        printResult($produtos);
         break;
     case 'update':
         
@@ -71,6 +102,22 @@ try{
     case 'delete':
         
         break;
+    case 'list':
+        //Retorna lista com todos os produtos ativos
+        $sql = 'SELECT  ven.codigo,
+                        pro.descricao,
+                        ven.quantidade,
+                        ven.valor_unitario,
+                        (SELECT (ven.quantidade * ven.valor_unitario) valor_total FROM avaliacao.venda) AS valor_total,
+                        ven.data_venda
+                FROM avaliacao.produto AS pro
+                JOIN avaliacao.venda AS ven
+                ON(pro.codigo = ven.codigo_produto)
+                WHERE pro.ativo = 1;';
+        $con->query($sql);
+        $vendas = $con->getArrayResults();
+        printResult($vendas);
+        break;  
         
     case 'gettotal':
         //Retorna o total de produtos
@@ -84,8 +131,16 @@ try{
         throw new Exception('Nenhuma ação válida foi solicitada!');
     }
 }catch(Exception $e){
-    print('Code:' . $e->getCode() . ' Message:' . $e->getMessage());
+    printResult(null, $e->getCode(), $e->getMessage());
 }finally{
     $con->closeConexao();
     unset($con);
+}
+
+function printResult($result = null, $code = 200, $message = 'success'){
+    $return = new stdClass();
+    $return->code = $code;
+    $return->message = $message;
+    $return->result = $result;
+    print json_encode($return);
 }
