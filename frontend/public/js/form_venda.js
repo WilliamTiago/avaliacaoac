@@ -1,7 +1,10 @@
-loadFormVenda();
-listVendas();
 var produtos = null;
 var produto = null;
+
+//Requisição para para carregar os dados do formulário de vends
+loadFormVenda();
+//Requisição para listar as vendas realizadas
+listVendas();
 
 $(document).on("click", '#cadastrarVenda', function (event) {
     event.preventDefault();

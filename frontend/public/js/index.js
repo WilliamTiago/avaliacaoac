@@ -1,4 +1,4 @@
-//Requisição para obter o total de produtos
+//Requisição para obter o total de produtos ativos
 getTotalProdutos();
 //Requisição para obter o total de vendas
 getTotalVendas();

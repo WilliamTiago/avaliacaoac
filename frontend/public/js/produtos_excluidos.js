@@ -1,3 +1,4 @@
+//Requisição para listar os produtos desativados
 listProdutosLixeira();
 
 $(document).on("click", '.restoreProduto', function () {

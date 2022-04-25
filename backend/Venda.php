@@ -12,7 +12,7 @@ try{
 
     switch ($acao){
     case 'create':
-        //Cadastra um produto
+        //Cadastra uma venda
         $venda = $_POST['venda'];
         if(empty($venda)){
             throw new Exception('As informações da venda não foram informadas!', 422);
@@ -33,7 +33,7 @@ try{
                 throw new Exception('Não foi possível atualizar o valor unitário do produto!', 500);
             }
         }
-        //Cadastra a venda no banco de dados
+        //Cadastra a venda
         $sql = "SELECT codigo FROM avaliacao.venda ORDER BY codigo DESC LIMIT 1";
         $con->query($sql);
         $result = $con->getArrayResults();
@@ -82,7 +82,7 @@ try{
         printResult($vendas);
         break;  
     case 'gettotal':
-        //Retorna o total de vends
+        //Retorna o total de vendas
         $sql = 'SELECT COUNT(codigo) AS total FROM avaliacao.venda;';
         $con->query($sql);
         $result = $con->getArrayResults();

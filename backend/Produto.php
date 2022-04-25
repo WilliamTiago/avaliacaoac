@@ -58,7 +58,7 @@ try{
         printResult($result);
         break;
     case 'delete':
-        //Desativa produto
+        //Desativa um produto
         $codigo = $_POST['codigo'];
         if(empty($codigo)){
             throw new Exception('O código do produto não foi informado!', 422);
@@ -68,7 +68,7 @@ try{
         printResult($result);
         break;
     case 'restore':
-        //Restaura produto
+        //Restaura um produto
         $codigo = $_POST['codigo'];
         if(empty($codigo)){
             throw new Exception('O código do produto não foi informado!', 422);

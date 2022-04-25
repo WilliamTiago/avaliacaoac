@@ -1,5 +1,6 @@
 var codigo = null;
 
+//Requisição para para carregar os dados do produto no formulário
 loadProduto();
 
 $(document).on("click", '#editarProduto', function (event) {

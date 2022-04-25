@@ -1,3 +1,4 @@
+//Requisição listar os produtos ativos
 listProdutos();
 
 $(document).on("click", '.deleteProduto', function () {
