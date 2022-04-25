@@ -21,3 +21,10 @@ CONSTRAINT `codigo_produto`
     FOREIGN KEY (`codigo_produto`)
     REFERENCES `avaliacao`.`produto` (`codigo`)
 );
+
+INSERT INTO avaliacao.produto (codigo, descricao, valor_unitario, codigo_barras, estoque, ativo) VALUES (1,'açucar',5.49,'3628503789567',100,1);
+INSERT INTO avaliacao.produto (codigo, descricao, valor_unitario, codigo_barras, estoque, ativo) VALUES (2,'farinha',9.79,'6928406563945',200,1);
+INSERT INTO avaliacao.venda (codigo, codigo_produto, quantidade, valor_unitario, data_venda) VALUES (1,1,2,5.49,'2022-04-22');
+INSERT INTO avaliacao.venda (codigo, codigo_produto, quantidade, valor_unitario, data_venda) VALUES (2,1,3,5.49,'2022-04-22');
+INSERT INTO avaliacao.venda (codigo, codigo_produto, quantidade, valor_unitario, data_venda) VALUES (3,2,2,9.79,'2022-04-22');
+INSERT INTO avaliacao.venda (codigo, codigo_produto, quantidade, valor_unitario, data_venda) VALUES (4,2,3,9.79,'2022-04-22');
