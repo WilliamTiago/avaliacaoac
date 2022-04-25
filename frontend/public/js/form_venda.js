@@ -1,5 +1,7 @@
 loadFormVenda();
 listVendas();
+var produtos = null;
+var produto = null;
 
 $(document).on("click", '#cadastrarVenda', function (event) {
     event.preventDefault();
@@ -15,8 +17,9 @@ $(document).on("change", '#valor_unitario_venda', function (event) {
 });
 
 $(document).on("change", '#produto_venda', function () {
-    let valor_unitario = this.selectedOptions[0].attributes['valor_unitario'].value;
-    $('#valor_unitario_venda').val(valor_unitario);
+    let index = this.selectedIndex - 1;
+    produto = produtos[index];
+    $('#valor_unitario_venda').val(produto.valor_unitario);
     updateValorTotal();
 });
 
@@ -35,12 +38,13 @@ function loadFormVenda(){
         function(data, status){
             if((status === 'success') && (data.code === 200)){
                 if(data.result.length === 0){
-                    alert("No momento não existe nenhum produto cadastrado!;");
+                    alert("No momento não existe nenhum produto disponível!;");
                 }else{                    
                     $.each(data.result, function( index, produto ) {
-                        let option = `<option valor_unitario="${produto.valor_unitario}" value="${produto.codigo}">${produto.descricao}</option>`;
+                        let option = `<option value="${produto.codigo}">${produto.descricao}</option>`;
                         $('#produto_venda').append(option);
                     });
+                    produtos = data.result;
                     $('#produto_venda').val(0);
                 }
             }
@@ -71,7 +75,7 @@ function listVendas(){
         function(data, status){
             if((status === 'success') && (data.code === 200)){
                 if(data.result.length === 0){
-                    alert("No momento não existe nenhuma venda realizada;");
+                    alert("No momento não existe nenhuma venda realizada!;");
                 }else{
                     $.each(data.result, function( index, venda ) {
                         renderRowVendas(venda);
@@ -88,7 +92,38 @@ function cadastraVenda(){
     venda.quantidade = $('#quantidade_venda').val();
     venda.valor_unitario = $('#valor_unitario_venda').val();
     venda.valor_total = $('#valor_total_venda').val();
-    venda.atualizar_valor_produto = $('#atualizar_valor_produto').val() ? $('#atualizar_valor_produto').val() : false;
+    venda.atualizar_valor_produto = $('#atualizar_valor_produto')[0].checked;
+    if(!venda.codigo_produto){
+        alert('Atenção, um produto deve ser informado!');
+        return;
+    }
+    if(venda.quantidade.length === 0){
+        alert('Atenção, a quantidade deve ser informada!');
+        return;
+    }
+    venda.quantidade = parseInt(venda.quantidade);
+    if(venda.quantidade > produto.estoque){
+        alert(`Atenção, a quantidade não pode ser superior ao estoque de ${produto.estoque} do produto ${produto.descricao}!`);
+        return;
+    }
+    if(venda.quantidade === 0){
+        alert(`Atenção, para realizar uma venda a quantidade mínima deve ser de 1 unidade!`);
+        return;
+    }
+    if(venda.valor_unitario.length === 0){
+        alert('Atenção, o valor unitário deve ser informado!');
+        return;
+    }
+    venda.valor_unitario = venda.valor_unitario.replace(',', '.');
+    if(isNaN(venda.valor_unitario)){
+        alert('O valor unitário informado não é um número válido!');
+        return;
+    }
+    venda.valor_unitario = parseFloat(venda.valor_unitario).toFixed(2);
+    if(venda.valor_unitario > 99999999.99){
+        alert('Atenção, o valor unitário não pode ser superior a 99999999.99!');
+        return;
+    }
     venda = JSON.stringify(venda);
     $.post("../backend/Venda.php",
         {

@@ -15,7 +15,7 @@ codigo INT NOT NULL,
 codigo_produto INT NOT NULL,
 quantidade INT  NOT NULL,
 valor_unitario DECIMAL(10,2) NOT NULL,
-data_venda DATE,
+data_venda DATE NOT NULL,
 PRIMARY KEY (`codigo`),
 CONSTRAINT `codigo_produto`
     FOREIGN KEY (`codigo_produto`)

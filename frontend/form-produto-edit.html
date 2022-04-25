@@ -105,19 +105,19 @@
 		    <div class="col-md-12">
                       <div class="form-group">
 			<label class="form-label">Descrição</label>
-			<input id="descricao_produto" name="descricao_produto" type="text" class="form-control" name="example-text-input" placeholder="Arroz.." value="Batata">
+			<input id="descricao_produto" name="descricao_produto" type="text" class="form-control" name="example-text-input" placeholder="Arroz.." maxlength="50" required="true">
 		      </div>
                     </div>
                     <div class="col-sm-6 col-md-4">
                       <div class="form-group">
                         <label class="form-label">Estoque</label>
-                        <input id="estoque_produto" name="estoque_produto" type="number" class="form-control" placeholder="10.." value="2000">
+                        <input id="estoque_produto" name="estoque_produto" type="number" class="form-control" placeholder="10.." min="0" max="2147483647" required="true">
                       </div>
                     </div>
                     <div class="col-sm-6 col-md-4">
                       <div class="form-group">
                         <label class="form-label">Código de barras</label>
-                        <input id="codigo_barras_produto" name="codigo_barras_produto" type="number" class="form-control" placeholder="78978978978978">
+                        <input id="codigo_barras_produto" name="codigo_barras_produto" type="number" class="form-control" placeholder="78978978978978" max="999999999999999999999999999999" required="true">
                       </div>
                     </div>
                     <div class="col-sm-6 col-md-4">
@@ -127,7 +127,7 @@
                           <span class="input-group-prepend">
                             <span class="input-group-text">R$</span>
                           </span>
-                          <input id="valor_unitario_produto" name="valor_unitario_produto" type="text" class="form-control text-right" aria-label="Valor" value="1,50">                          
+                          <input id="valor_unitario_produto" name="valor_unitario_produto" type="text" class="form-control text-right" aria-label="Valor" maxlength="11" required="true">                          
                         </div>
                       </div>
                     </div>                    

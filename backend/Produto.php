@@ -4,64 +4,6 @@ header("Content-Type: aplication/json");
 
 require_once 'Conexao.php';
 
-class Produto{
-
-    private $codigo;
-    private $descricao;
-    private $valor_unitario;
-    private $estoque;
-    private $ativo;
-
-    public function __construct($codigo, $descricao, $valor_unitario, $estoque, $ativo){
-        $this->codigo            = $codigo;
-        $this->descricao         = $descricao;
-        $this->valor_unitario    = $valor_unitario;
-        $this->estoque           = $estoque;
-        $this->ativo             = $ativo;
-    }
-
-    public function getCodigo() {
-        return $this->codigo;
-    }
-
-    public function getDescricao() {
-        return $this->descricao;
-    }
-
-    public function getValor_unitario() {
-        return $this->valor_unitario;
-    }
-
-    public function getEstoque() {
-        return $this->estoque;
-    }
-
-    public function getAtivo() {
-        return $this->ativo;
-    }
-
-    public function setCodigo($codigo) {
-        $this->codigo = $codigo;
-    }
-
-    public function setDescricao($descricao) {
-        $this->descricao = $descricao;
-    }
-
-    public function setValor_unitario($valor_unitario) {
-        $this->valor_unitario = $valor_unitario;
-    }
-
-    public function setEstoque($estoque) {
-        $this->estoque = $estoque;
-    }
-
-    public function setAtivo($ativo) {
-        $this->ativo = $ativo;
-    }
-    
-}
-
 try{    
     $con = new Conexao();
     $con->setConexao();
@@ -82,6 +24,9 @@ try{
         $codigo = count($result[0]) === 0 ? 1 : $result[0]['codigo'] + 1;
         $sql = "INSERT INTO avaliacao.produto (codigo, descricao, valor_unitario, codigo_barras, estoque) VALUES ($codigo, '$produto->descricao', $produto->valor_unitario, $produto->codigo_barras, $produto->estoque);";
         $result = $con->query($sql, true);
+        if(empty($result)){
+            throw new Exception('Não foi possível cadastrar o produto!',500);
+        };
         printResult($result);
         break;
     case 'read':
@@ -147,7 +92,7 @@ try{
         printResult($produtos);
         break;  
     case 'listrecyclebin':
-        //Retorna lista com todos os produtos ativos      
+        //Retorna lista com todos os produtos desativados      
         $sql = 'SELECT  pro.codigo,
                         pro.descricao,
                         pro.valor_unitario,
@@ -159,8 +104,8 @@ try{
         printResult($produtos);
         break; 
     case 'gettotal':
-        //Retorna o total de produtos
-        $sql = 'SELECT COUNT(codigo) AS total FROM avaliacao.produto;';
+        //Retorna o total de produtos ativos
+        $sql = 'SELECT COUNT(codigo) AS total FROM avaliacao.produto WHERE produto.ativo = 1;';
         $con->query($sql);
         $result = $con->getArrayResults();
         $total = (count($result) === 1) ? $result[0] : 0;
@@ -170,6 +115,8 @@ try{
         throw new Exception('Nenhuma ação válida foi solicitada!');
     }
 }catch(Exception $e){
+    printResult(null, $e->getCode(), $e->getMessage());
+}catch(Error $e){
     printResult(null, $e->getCode(), $e->getMessage());
 }finally{
     $con->closeConexao();
